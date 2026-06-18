@@ -1,0 +1,8 @@
+POST http://localhost:8082/products
+Content-Type: application/json
+
+{
+  "name": "gvjhg",
+  "price": -30000,
+  "quantity": -10
+}

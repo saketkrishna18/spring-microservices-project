@@ -1,0 +1,53 @@
+services:
+
+  service-registry:
+    image: service-registry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - microservice-network
+
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - service-registry
+    networks:
+      - microservice-network
+
+  user-service:
+    image: user-service
+    container_name: user-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - service-registry
+    networks:
+      - microservice-network
+
+  product-service:
+    image: product-service
+    container_name: product-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - service-registry
+    networks:
+      - microservice-network
+
+  order-service:
+    image: order-service
+    container_name: order-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - service-registry
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
