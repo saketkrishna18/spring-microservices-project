@@ -8,12 +8,9 @@ paths:
 
 jobs:
 build-and-push:
-
-```
 runs-on: ubuntu-latest
 
 steps:
-
   - name: Checkout Code
     uses: actions/checkout@v4
 
@@ -42,4 +39,3 @@ steps:
   - name: Push Docker Image
     run: |
       docker push saketkrishna18/user-service:latest
-```
