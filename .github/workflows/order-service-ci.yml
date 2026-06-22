@@ -1,0 +1,38 @@
+name: Order Service CI
+
+on:
+  push:
+    paths:
+      - 'order-service/**'
+      - '.github/workflows/order-service-ci.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build Order Service
+        run: |
+          cd order-service
+          mvn clean package -DskipTests
+
+      - name: Docker Login
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin    
+
+      - name: Build Docker Image
+        run: |
+          cd order-service
+          docker build -t saketkrishna18/order-service:latest .
+
+      - name: Push Docker Image
+        run: docker push saketkrishna18/order-service:latest
